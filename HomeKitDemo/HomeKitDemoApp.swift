@@ -11,7 +11,9 @@ import SwiftUI
 struct HomeKitDemoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                ContentView(model: HomeStore())
+            }
         }
     }
 }

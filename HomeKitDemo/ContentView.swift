@@ -6,19 +6,39 @@
 //
 
 import SwiftUI
+import HomeKit
 
 struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
-    }
+    
+     @State private var path = NavigationPath()
+     @ObservedObject var model: HomeStore
+     
+     var body: some View {
+//         NavigationStack(path: $path) {
+//
+//         }
+         List {
+             Section(header: HStack {
+                 Text("My Homes")
+             }) {
+                 ForEach(model.homes, id: \.uniqueIdentifier) { home in
+                     NavigationLink(destination: {
+                         AccessoriesView(homeId: home.uniqueIdentifier, model: model)
+//                            Text("Details screen")
+                     }, label: {
+                         Text("\(home.name)")
+                     })
+//                         NavigationLink({
+//                             AccessoriesView(homeId: home.uniqueIdentifier, model: model)
+//                         } {
+//                             Text("\(home.name)")
+//                         })
+                 }
+             }
+         }
+     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(model: HomeStore())
 }
